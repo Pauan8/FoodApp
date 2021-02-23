@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css" />
+    <title>Food App </title>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav-btn" id="navBtn">
+            <div class="nav-btn__bar1"></div>
+            <div class="nav-btn__bar2"></div>
+            <div class="nav-btn__bar3"></div>
+        </div>
+        <div class="nav-container">
+            <a class="navlink" href="a">Menu tips</a>
+            <a class="navlink" href="b">Recipe search</a>
+            <a class="navlink" href="c">Inspiration</a>
+            <a class="navlink" href="d">Login</a>
+            <a class="navlink" href="e">Sign Up</a>
+        </div>
+    </nav>
+
+    <header class="header">
+        <div class="header-bg"></div>
+    </header>
+
+    <main class="main">
+
+        <section class="search-container">
+            <form class="search">
+                <h1>What do you want to eat today?</h1>
+                <label for="search-input"> Search recipe </label>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" name="search-input" />
+                    <button class="search-bar__btn" id="searchBtn">Go!</button>
+                </div>
+                <span class="search-accordion" id="searchAccordion">More options </span>
+                <div class="search-accordion-inner">
+                    <div class="search-accordion-inner__checkbox">
+                        <label class="checkbox-container">
+                            <input type="checkbox" />
+                            <span class="checkbox-mark"></span>
+                            Gluten-free
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" />
+                            <span class="checkbox-mark"></span>
+                            Lactose-free
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" />
+                            <span class="checkbox-mark"></span>
+                            Egg-free
+                        </label>
+                    </div>
+
+                    <div class="search-accordion-inner__checkbox">
+                        <label class="checkbox-container">
+                            <input type="checkbox" />
+                            <span class="checkbox-mark"></span>
+                            Nut-free
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" />
+                            <span class="checkbox-mark"></span>
+                            Vegan
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" />
+                            <span class="checkbox-mark"></span>
+                            Vegetarian
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer"></footer>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;700&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    width: 100%;
+    font-family: 'Nunito', sans-serif;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: flex-end;
+}
+
+.nav-btn {
+    width: 50px;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+}
+
+/* bars for building a hamburger menu icon */
+.nav-btn__bar1,
+.nav-btn__bar2,
+.nav-btn__bar3 {
+    width: 35px;
+    height: 5px;
+    border-radius: 5px;
+    background-color: rgba(121, 86, 133, 0.836);
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+/*when class "change" is added bars will transform to an X*/
+.change .nav-btn__bar1 {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+    transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+.change .nav-btn__bar2 {
+    opacity: 0;
+}
+
+.change .nav-btn__bar3 {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px);
+    transform: rotate(45deg) translate(-8px, -8px);
+}
+
+.nav-container {
+    position: absolute;
+    height: 0;
+    overflow-y: hidden;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: white;
+    z-index: 1;
+}
+
+/*when active class gets added to nav-btn, nav container will be visible like a scroll down menu */
+.nav--active+div {
+    height: 100vh;
+    width: 100%;
+    overflow-y: visible;
+    transition: height 0.5s;
+}
+
+.navlink {
+    text-decoration: none;
+    color: black;
+}
+
+.header {
+    position: relative;
+    height: 200px;
+    width: 100%;
+}
+
+.header-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 200px;
+    width: 100%;
+    background-image: url("./assets/header-bg-mobile.jpg");
+    opacity: 0.5;
+    background-position: center;
+    background-size: cover;
+}
+
+.search {
+    color: rgba(121, 86, 133, 0.925);
+    margin: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+}
+
+.search label {
+    margin: 10px 0 5px 0;
+}
+
+.search-bar {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.search-bar input {
+    width: 100%;
+}
+
+.search-bar__btn {
+    background-color: rgba(121, 86, 133, 0.836);
+    color: white;
+    border: 0.5px solid rgba(0, 0, 0, 0.329);
+    padding: 5px;
+}   
+
+.search-accordion {
+    width: 100%;
+    border: solid 1px rgba(121, 86, 133, 0.836);
+    display: flex;
+    justify-content: center;
+    padding: 5px 0;
+}
+
+.search-accordion-inner {
+    height: 0;
+    overflow-y: hidden;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.search-accordion--active+div {
+    height: 150px;
+    width: 100%;
+    overflow-y: visible;
+    border: solid 1px rgba(121, 86, 133, 0.836);
+}
+
+.search-accordion-inner__checkbox {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Customize the label (the container) */
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkbox-mark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .checkbox-container:hover input ~ .checkbox-mark{
+    background-color: #ccc;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .checkbox-container input:checked ~ .checkbox-mark {
+    background-color: #2196F3;
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkbox-mark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .checkbox-container input:checked ~ .checkbox-mark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .checkbox-container .checkbox-mark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
