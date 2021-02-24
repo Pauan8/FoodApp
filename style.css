@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;700&display=swap?family=Big+Shoulders+Display:wght@500&display=swap');
 
 * {
     padding: 0;
@@ -8,6 +8,8 @@
 body {
     width: 100%;
     font-family: 'Nunito', sans-serif;
+    height: 100%;
+    position: relative;
 }
 
 .nav {
@@ -95,6 +97,16 @@ body {
     background-size: cover;
 }
 
+.logo {
+    position: absolute;
+    left: 10px;
+    top: 0;
+    font-size: 40px;
+    font-weight: 600;
+    color:rgb(69, 47, 90);
+    font-family: 'Big Shoulders Display', cursive;
+}
+
 .search {
     color: rgb(88, 58, 99);
     margin: 30px;
@@ -124,6 +136,11 @@ body {
     color: white;
     border: 0.5px solid rgba(0, 0, 0, 0.329);
     padding: 5px;
+}
+
+#btn {
+    height: 30px;
+    width: 50px;
 }
 
 .search-accordion {
@@ -222,12 +239,17 @@ body {
     transform: rotate(45deg);
 }
 
+.main {
+    height: 100%;
+    padding-bottom: 60px;
+}
+
 .recipe-slider {
     display: none;
     overflow-x: hidden;
     position: relative;
     width: 100%;
-    height: 250px;
+    height: 280px;
     margin: 50px 0;
 }
 
@@ -259,23 +281,49 @@ body {
     border: solid 3px rgb(113, 61, 211);
 }
 
-.img-container {
+.recipe-card__img-container {
     height: 90%;
     width: 100%;
     position: relative;
     overflow: hidden;
 }
 
-.img-container img {
+.recipe-card__img-container img {
     position: absolute;
     top: -20%;
     width: 100%;
     object-fit: cover;
 }
 
-.img-text {
-   display: flex;
-   justify-content: center;
+.recipe-card__text {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.recipe-card__text-label {
+    margin: 5px 5px;
+   height: 60px;
+   width: 70%;
+}
+
+.recipe-card__img-container__clock {
+    position:relative;
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    margin: 3px 0px 5px 15px;
+}
+
+.recipe-card__img-container__clock img {
+    position:absolute;
+    top: 0;
+    left:0;
+    width: 100%;
+    object-fit: cover;
+}
+
+.recipe-card__text-time {
+    margin: 2px 5px;
 }
 
 .recipe-slider__btn-right, .recipe-slider__btn-left {
@@ -296,6 +344,19 @@ body {
 
 .recipe-slider__btn-left {
     left: 0;
+}
+
+.footer {
+    height: 60px;
+    width: 100%;
+    background-color: rgba(88, 58, 99, 0.486);
+    color: white;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
 }
 
 .active {
