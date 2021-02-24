@@ -106,11 +106,12 @@ const displayRecipes = (recipes, container) => {
     </div>
   `
   })
-  recipeCard = document.querySelectorAll(`.${divclass}`)
-  recipeCard[0].classList.add("active")
+recipeCard = document.querySelectorAll(`.${divclass}`)
+recipeCard[0].classList.add("active")
 
   arrowButtons(recipeCard, index)
 }
+
 
 /*Connects the arrowbuttons to the correct innerHTML elements and makes them function 
 as right/left button to view slideshow of foods */

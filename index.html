@@ -40,13 +40,16 @@
                     <input type="text" id="searchInput" name="search-input" />
                     <button class="search-bar__btn" id="searchBtn">Go!</button>
                 </div>
-                <span class="search-accordion" id="searchAccordion">More options </span>
+                <span class="search-accordion" id="searchAccordion">
+                    <span class="search-accordion__btn" id="accordionBtn"></span> 
+                </span>
                 <div class="search-accordion-inner">
+
                     <div class="search-accordion-inner__checkbox">
                         <label class="checkbox-container">
                             <input type="checkbox" class="checkbox" value="peanut-free" />
                             <span class="checkbox-mark"></span>
-                            Peanut-free 
+                            Peanut-free
                         </label>
                         <label class="checkbox-container">
                             <input type="checkbox" class="checkbox" value="tree-nut-free" />
@@ -78,42 +81,52 @@
                         </label>
                     </div>
                 </div>
-                <button class="randomBtn" id="randomBtn">More hits</button>
             </form>
-           
+
         </section>
 
         <section class="gallery">
-            <button class="recipe-slider__btn-right" id="sliderBtnR">
-                &#9658;
-            </button>
-            <button class="recipe-slider__btn-left" id="sliderBtnL">
-                &#9664;
-            </button>
-            <div class="recipe-slider" id="recipeSlider">
-                <span class="recipe-slider__heading">Your search hits</span>
-            </div>
-            <button class="recipe-slider__btn-right" id="sliderBtnR2">
-                &#9658;
-            </button>
-            <button class="recipe-slider__btn-left" id="sliderBtnL2">
-                &#9664;
-            </button>
-
-            <div class="recipe-slider" id="simpleRecipeSlider">
-                <span class="recipe-slider__heading">Less than 5 ingridients</span>
-            </div>
-            <button class="recipe-slider__btn-right" id="sliderBtnR3">
-                &#9658;
-            </button>
-            <button class="recipe-slider__btn-left" id="sliderBtnL3">
-                &#9664;
-            </button>
-
-            <div class="recipe-slider" id="fastRecipeSlider">
-                <span class="recipe-slider__heading">Max 30mins cooking time</span>
+            <button class="randomBtn" id="randomBtn">More hits</button>
+            <div class="recipe-slider__container">
+                <div class="btn-container">
+                    <button class="recipe-slider__btn-left" id="sliderBtnL3">
+                        &#9664;
+                    </button>
+                    <button class="recipe-slider__btn-right" id="sliderBtnR3">
+                        &#9658;
+                    </button>
+                </div>
+                <div class="recipe-slider" id="recipeSlider">
+                    <span class="recipe-slider__heading">Your search hits</span>
+                </div>
             </div>
 
+            <div class="recipe-slider__container">
+                <div class="btn-container">
+                    <button class="recipe-slider__btn-left" id="sliderBtnL3">
+                        &#9664;
+                    </button>
+                    <button class="recipe-slider__btn-right" id="sliderBtnR3">
+                        &#9658;
+                    </button>
+                </div>
+                <div class="recipe-slider" id="simpleRecipeSlider">
+                    <span class="recipe-slider__heading">Less than 5 ingridients</span>
+                </div>
+            </div>
+            <div class="recipe-slider__container">
+                <div class="btn-container">
+                    <button class="recipe-slider__btn-left" id="sliderBtnL3">
+                        &#9664;
+                    </button>
+                    <button class="recipe-slider__btn-right" id="sliderBtnR3">
+                        &#9658;
+                    </button>
+                </div>
+                <div class="recipe-slider" id="fastRecipeSlider">
+                    <span class="recipe-slider__heading">Max 30mins cooking time</span>
+                </div>
+            </div>
         </section>
     </main>
 
