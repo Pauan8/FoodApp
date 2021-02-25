@@ -70,22 +70,23 @@ const filterRecipes = (url) => {
 several different slideshows can be active at the same time */
 const displayRecipes = (recipes, container) => {
   let divclass, index;
+  const recipeSliderContainer = document.querySelectorAll(".recipe-slider__container")
 
   switch (container) {
     case simpleRecipesSlider:
-      container.classList.add("active")
       index = 1;
+      recipeSliderContainer[index].classList.add("active")
       divclass = "recipe-card__simpleFood"
       break;
     case fastRecipesSlider:
-      container.classList.add("active")
       index = 2;
       divclass = "recipe-card__fastFood"
+      recipeSliderContainer[index].classList.add("active")
       break;
     default:
-      container.classList.add("active")
       index = 0;
       divclass = "recipe-card__userSearch"
+      recipeSliderContainer[index].classList.add("active")
   }
 
   recipes.hits.forEach((item) => {
@@ -106,6 +107,7 @@ const displayRecipes = (recipes, container) => {
     </div>
   `
   })
+
 recipeCard = document.querySelectorAll(`.${divclass}`)
 recipeCard[0].classList.add("active")
 
@@ -153,7 +155,7 @@ return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive
 const clearAll = () => {
   userInput.value = ""
   checkbox.forEach(item => item.checked = false);
-  recipeSlider.innerHTML = `<span class="recipe-slider__heading">Your search hits</span>`
+  recipeSlider.innerHTML = `<span class="recipe-slider__heading">Your search</span>`
 }
 
 //eventlisteners
