@@ -30,8 +30,8 @@ const fetchRecipes = (url, sender) => {
           break;
         default:
           displayRecipes(recipeData, recipeSlider)
-          }
-      })
+      }
+    })
     .catch((error) => alert("Error"))
 }
 
@@ -43,6 +43,7 @@ const generateStartSite = () => {
 }
 
 
+//adds specific filter values to the url depending on if the user have selected any
 const filterRecipes = (url) => {
   let newUrl = url
   let checked = document.querySelectorAll(".checkbox:checked")
@@ -63,34 +64,44 @@ const filterRecipes = (url) => {
     e.preventDefault()
     fetchRecipes(randomize(newUrl))
     clearAll()
-  }) 
+  })
 }
 
 /*Displays recipes in different innerHTML sliders depending on arguments so
 several different slideshows can be active at the same time */
 const displayRecipes = (recipes, container) => {
   let divclass, index;
-  const recipeSliderContainer = document.querySelectorAll(".recipe-slider__container")
+  const reciperContainer = document.querySelectorAll(".recipe-slider__container")
+  const width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
   switch (container) {
     case simpleRecipesSlider:
       index = 1;
-      recipeSliderContainer[index].classList.add("active")
+      reciperContainer[index].classList.add("recipe-slider__container--active")
       divclass = "recipe-card__simpleFood"
       break;
     case fastRecipesSlider:
       index = 2;
       divclass = "recipe-card__fastFood"
-      recipeSliderContainer[index].classList.add("active")
+      reciperContainer[index].classList.add("recipe-slider__container--active")
       break;
     default:
       index = 0;
       divclass = "recipe-card__userSearch"
-      recipeSliderContainer[index].classList.add("active")
+      reciperContainer[index].classList.add("recipe-slider__container--active")
   }
+
+  container.innerHTML += `    
+    <div class="${divclass}">
+      <div class="placeholder">
+        <h1>Click the right arrow to see more recipes</h1>
+      </div>
+    </div>
+  `
 
   recipes.hits.forEach((item) => {
     container.innerHTML += `
+   
     <div class="${divclass}">
       <div class="recipe-card__img-container">
         <img src="${item.recipe.image}"/>
@@ -105,29 +116,73 @@ const displayRecipes = (recipes, container) => {
         </div>
       </div>
     </div>
+    
   `
   })
 
-recipeCard = document.querySelectorAll(`.${divclass}`)
-recipeCard[0].classList.add("active")
+  container.innerHTML += `
+    <div class="${divclass}">
+      <div class="placeholder">
+        <h1>Ops! No more recipes.</h1>
+        <h3>Click left to go back</h3>
+      </div>
+    </div>
+  `
+  recipeCard = document.querySelectorAll(`.${divclass}`)
 
+  width >= 700 ? (
+    recipeCard[0].classList.add("active"),
+    recipeCard[1].classList.add("recipe-card__hero--active"),
+    recipeCard[2].classList.add("active")
+  ) : (
+    recipeCard[1].classList.add("active")
+  )
   arrowButtons(recipeCard, index)
 }
 
 
-/*Connects the arrowbuttons to the correct innerHTML elements and makes them function 
-as right/left button to view slideshow of foods */
+/*Connects the arrowbuttons to the correct innerHTML elements and makes them function as 
+right/left button to view slideshow of foods. For desktop several elements will get an active 
+class to show more than one recipe at one time in the slideshow. */
 const arrowButtons = (card, index) => {
-  let i = 0;
+  const width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+  let i = 1;
+  let j = 0;
+
   sliderBtnL[index].addEventListener("click", () => {
-    card[i].classList.remove("active")
-    i > 0 ? i-- : i = 9
-    card[i].classList.add("active")
+    if (width >= 700) {
+      if (i > 0) {
+        card.forEach((item) => item.classList.remove("active", "recipe-card__hero--active"))
+        i--
+        card[i].classList.add("active")
+        card[i + 1].classList.add("recipe-card__hero--active")
+        card[i + 2].classList.add("active")
+      } else {
+        i = 1
+      }
+    } else {
+      card[j].classList.remove("active")
+      j > 1 ? j-- : j = card.length - 2
+      card[j].classList.add("active")
+    }
   })
+
   sliderBtnR[index].addEventListener("click", () => {
-    card[i].classList.remove("active")
-    i === 9 ? i = 0 : i++
-    card[i].classList.add("active")
+    if (width >= 700) {
+      if (i === card.length - 3) {
+        i = card.length - 4
+      } else {
+        card.forEach((item) => item.classList.remove("active", "recipe-card__hero--active"))
+        i++
+        card[i].classList.add("active")
+        card[i + 1].classList.add("recipe-card__hero--active")
+        card[i + 2].classList.add("active")
+      }
+    } else {
+      card[j].classList.remove("active")
+      j === card.length - 2 ? j = 1 : j++
+      card[j].classList.add("active")
+    }
   })
 }
 
@@ -146,16 +201,17 @@ const convertTime = (time) => {
   }
 }
 
+//Generates a random number between 2 values. Used to add more variation in recipes displayed on the site.
 const randomNumber = (min, max) => {
-min = Math.ceil(1);
-max = Math.floor(100);
-return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+  min = Math.ceil(1);
+  max = Math.floor(100);
+  return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
 
 const clearAll = () => {
   userInput.value = ""
   checkbox.forEach(item => item.checked = false);
-  recipeSlider.innerHTML = `<span class="recipe-slider__heading">Your search</span>`
+  recipeSlider.innerHTML = ""
 }
 
 //eventlisteners

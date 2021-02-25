@@ -127,9 +127,9 @@ body {
     margin: 30px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     max-width: 100%;
+   margin-bottom: 100px;
 }
 
 .search label {
@@ -147,17 +147,13 @@ body {
 }
 
 .search-bar__btn,
-.randomBtn {
+.randomBtn button{
     background-color: rgba(41, 103, 117, 0.836);
     color: white;
     border: 0.5px solid rgba(0, 0, 0, 0.329);
     padding: 5px;
 }
 
-.randomBtn{
-    position: absolute;
-    z-index:3;
-}
 .search-accordion {
     width: 100%;
     border: solid 1px rgba(86, 122, 133, 0.836);
@@ -273,22 +269,38 @@ body {
 
 .randomBtn {
     position: absolute;
-    top: -30px;
+    top: -100px;
+    width: 80%;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color:rgb(1, 65, 65);
+    font-size: 16px;
+    text-align: center;
+}
+
+.randomBtn button {
+    margin-top: 10px;
+    width: 200px;
+    border-radius: 5px;
 }
 
 .recipe-slider__container {
     position: relative;
     display: none;
-   }
+    height: 440px;
+    margin-bottom: 50px;
+}
 
 .recipe-slider {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
     position: relative;
+    justify-content: flex-start;
     width: 100%;
     height: 400px;
-    margin: 50px 0;
 }
 
 .recipe-slider__heading {
@@ -301,17 +313,39 @@ body {
     font-weight: 600;
     background-color: rgba(91, 160, 151, 0.836);
     color: rgb(255, 255, 255);
+    margin-top: 30px;
+}
+
+.placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: cadetblue;
+}
+
+.placeholder h1,
+.placeholder h3 {
+    width: 60%;
+    text-align: center;
 }
 
 .recipe-card__userSearch,
 .recipe-card__simpleFood,
 .recipe-card__fastFood {
-    width: 100vw;
-    height: 400px;
-    box-sizing: border-box;
     display: none;
+    height: 100%;
+    box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.836);
     border: solid 0.5px rgb(140, 209, 198);
+    transition: width 0.5s;
+}
+
+.active {
+    display: block;
+    width: 100%;
 }
 
 .recipe-card__userSearch {
@@ -319,7 +353,8 @@ body {
 }
 
 .recipe-card__img-container {
-    height: 290px;
+    height: 300px;
+    flex: 1 1 auto;
     width: 100%;
     position: relative;
     overflow: hidden;
@@ -327,7 +362,7 @@ body {
 
 .recipe-card__img-container img {
     position: absolute;
-    top: -20%;
+    top: 0;
     width: 100%;
     object-fit: cover;
 }
@@ -371,6 +406,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    top: 0;
 }
 
 .recipe-slider__btn-right,
@@ -403,7 +439,7 @@ body {
 }
 
 @media screen and (min-device-width: 700px) {
-    body  {
+    body {
         font-size: 18px;
     }
 
@@ -448,6 +484,91 @@ body {
         font-size: 60px;
     }
 
+    .main {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-bar {
+        display: flex;
+        width: 400px;
+        justify-content: center;
+    }
+
+    .search {
+        width: 400px;
+    }
+
+    .gallery {
+        width: 100%;
+    }
+
+    .recipe-slider__container {
+        height: 500px;
+        margin-bottom: 50px;
+    }
+
+    .recipe-slider {
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        margin: 0;
+        margin-bottom: 30px;
+    }
+
+    .recipe-slider__heading {
+        margin-top: 60px;
+    }
+
+    .recipe-card__fastFood,
+    .recipe-card__simpleFood,
+    .recipe-card__userSearch {
+        width: 0;
+        border: none;
+        overflow-x: hidden;
+        width: 0;
+        display: block;
+        font-size: 12px;
+        transition: font-size .5s;
+        transition:  width .5s;
+        opacity: 0.7;
+
+    }
+
+    .recipe-card__userSearch {
+        border: none;
+    }
+
+    .recipe-card__text {
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: flex-start;
+        height: 60px;
+    }
+
+    .recipe-card__text-label {
+        margin: 5px 5px;
+        height: 60px;
+        width: 100%;
+    }
+
+    .recipe-card__text-time {
+        margin: 2px 5px;
+        width: fit-content;
+    }
+
+    .active {
+        height: 450px;
+        width: 30%;
+    }
+
+    .recipe-card__hero--active {
+        font-size: 18px;
+        height: 450px;
+    }
+
     .recipe-slider__heading {
         font-size: 22px;
     }
@@ -458,22 +579,18 @@ body {
     }
 
     .recipe-card__img-container img {
-        width: 80%;
-    }
-
-    .recipe-card__text {
-        justify-content: center;
+        width: 100%;
+        height: 350px;
     }
 
     button {
         font-size: 16px;
     }
 
-    
 }
 
-@media screen and (min-device-width: 1000px) {
-    body  {
+@media screen and (min-device-width: 1500px) {
+    body {
         font-size: 20px;
     }
 
@@ -499,39 +616,57 @@ body {
         left: -8%;
     }
 
-    .main {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    .search, .search-bar {
+        width: 600px; 
     }
 
     .gallery {
-        width: 50%;
+        width: 60%;
     }
 
-    .recipe-slider {
-        width: 100%;
+    .recipe-card__fastFood,
+    .recipe-card__simpleFood,
+    .recipe-card__userSearch 
+    {
+    font-size: 14px;
     }
 
-    .recipe-card__fastFood, .recipe-card__simpleFood, .recipe-card__userSearch {
-        width: 100%;
-    }
-
-    .search-bar {
-        display: flex;
-        width: 400px;
+    .recipe-card__text {
+        flex-wrap: nowrap;
         justify-content: center;
+        align-items: center;
+        height: 80px;
     }
-    
-   .search {
-       width: 400px;
-   }
+
+    .recipe-card__text-label {
+        width: 55%;
+        height: fit-content;
+    }
+
+    .active {
+        width: 30%;
+    }
+
+    .recipe-card__hero--active {
+        font-size: 20px;
+    }
 
 }
 
 .active {
+    overflow-x: visible;
+}
+
+.recipe-slider__container--active {
     display: block;
+}
+
+.recipe-card__hero--active {
+    overflow-x: visible;
+    width: 50%;
+    flex: 1 1 auto;
+    opacity: 1;
+    box-shadow: 1px 1px 4px 5px rgb(1, 65, 65);
 }
 
 .search-accordion--active+div {
@@ -544,4 +679,3 @@ body {
 .search-accordion--active .search-accordion__btn::before {
     content: "\25B2   Show less"
 }
-
