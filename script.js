@@ -10,6 +10,7 @@ const recipeSlider = document.getElementById("recipeSlider")
 const simpleRecipesSlider = document.getElementById("simpleRecipeSlider")
 const fastRecipesSlider = document.getElementById("fastRecipeSlider")
 
+
 const handleUserInput = (input) => {
   const query = input;
   const APIurl = `https://api.edamam.com/search?q=${query}&app_id=38a129f8&app_key=ad250481ec39e7ffc0c0904ddbc693f8`
@@ -70,6 +71,7 @@ const filterRecipes = (url) => {
 /*Displays recipes in different innerHTML sliders depending on arguments so
 several different slideshows can be active at the same time */
 const displayRecipes = (recipes, container) => {
+
   let divclass, index;
   const reciperContainer = document.querySelectorAll(".recipe-slider__container")
   const width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
@@ -98,26 +100,32 @@ const displayRecipes = (recipes, container) => {
       </div>
     </div>
   `
-
   recipes.hits.forEach((item) => {
+    const ingrd = []
+    const imgSrc = item.recipe.image
+    const recipeName = item.recipe.label
+    const url = item.recipe.shareAs
+
+    item.recipe.ingredients.forEach(ing => ingrd.push(ing.text))
+
     container.innerHTML += `
-   
-    <div class="${divclass}">
-      <div class="recipe-card__img-container">
-        <img src="${item.recipe.image}"/>
-      </div>
-      <div class="recipe-card__text">
-        <div class="recipe-card__text-label">
-        ${item.recipe.label}</div>
+      <div class="${divclass}">
+        <a class="recipe-card__link" onclick="openRecipe('${ingrd}', '${imgSrc}', '${recipeName}', '${url}')" 
+        target="_blank"></a>
+        <div class="recipe-card__img-container">
+          <img src="${imgSrc}"/>
+        </div>
+        <div class="recipe-card__text">
+          <div class="recipe-card__text-label">
+            ${recipeName}
+          </div>
           <div class ="recipe-card__img-container__clock">
             <img src="./assets/clock.svg"/>
           </div>
         <div class="recipe-card__text-time">${convertTime(item.recipe.totalTime)}
         </div>
       </div>
-    </div>
-    
-  `
+    `
   })
 
   container.innerHTML += `
@@ -138,8 +146,8 @@ const displayRecipes = (recipes, container) => {
     recipeCard[1].classList.add("active")
   )
   arrowButtons(recipeCard, index)
-}
 
+}
 
 /*Connects the arrowbuttons to the correct innerHTML elements and makes them function as 
 right/left button to view slideshow of foods. For desktop several elements will get an active 
@@ -184,6 +192,32 @@ const arrowButtons = (card, index) => {
       card[j].classList.add("active")
     }
   })
+}
+
+const openRecipe = (ingrd, img, label, url) => {
+  const ingredients = ingrd.split(",")
+  const myPopup = window.open("./recipe.html", "_blank");
+
+  myPopup.onload = function () {
+    let recipeImage = myPopup.document.getElementById("recipeImage")
+    let recipeIngredients = myPopup.document.getElementById("recipeIngredients")
+
+    recipeImage.innerHTML = `
+    <div class="recipe-image__container"> 
+      <img src="${img}"/>
+    </div>
+    <h1> ${label}</h1>
+    <a href="${url}" target="_blank"> Full recipe </a>`
+
+    ingredients.forEach((ing) => {
+      console.log(ing)
+      recipeIngredients.innerHTML += `
+        <div class="recipe-description__ingrd-list">
+        <li>${ing}</li>
+        </div>
+      `
+    })
+  }
 }
 
 //Makes minutes to hours, days and weeks on long totalTime recipes
