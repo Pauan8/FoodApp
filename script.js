@@ -169,7 +169,7 @@ const arrowButtons = (card, index) => {
         i = 1
       }
     } else {
-      card[j].classList.remove("active")
+      card.forEach((item) => item.classList.remove("active"))
       j > 1 ? j-- : j = card.length - 2
       card[j].classList.add("active")
     }
