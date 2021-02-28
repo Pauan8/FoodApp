@@ -43,7 +43,6 @@ const generateStartSite = () => {
   fetchRecipes(fastFoodUrl, fastRecipesSlider)
 }
 
-
 //adds specific filter values to the url depending on if the user have selected any
 const filterRecipes = (url) => {
   let newUrl = url
@@ -93,31 +92,19 @@ const displayRecipes = (recipes, container) => {
       reciperContainer[index].classList.add("recipe-slider__container--active")
   }
 
-  container.innerHTML += `    
-    <div class="${divclass}">
-      <div class="placeholder">
-        <h1>Click the right arrow to see more recipes</h1>
-      </div>
-    </div>
-  `
   recipes.hits.forEach((item) => {
-    const ingrd = []
-    const imgSrc = item.recipe.image
-    const recipeName = item.recipe.label
-    const url = item.recipe.shareAs
-
-    item.recipe.ingredients.forEach(ing => ingrd.push(ing.text))
+    const rValue = item.recipe.uri.replaceAll("/", "%2F").replaceAll(":", "%3A").replaceAll("#", "%23");
 
     container.innerHTML += `
       <div class="${divclass}">
-        <a class="recipe-card__link" onclick="openRecipe('${ingrd}', '${imgSrc}', '${recipeName}', '${url}')" 
+        <a class="recipe-card__link" onclick="openRecipe('${rValue}')" 
         target="_blank"></a>
         <div class="recipe-card__img-container">
-          <img src="${imgSrc}"/>
+          <img src="${item.recipe.image}"/>
         </div>
         <div class="recipe-card__text">
           <div class="recipe-card__text-label">
-            ${recipeName}
+            ${item.recipe.label}
           </div>
           <div class ="recipe-card__img-container__clock">
             <img src="./assets/clock.svg"/>
@@ -128,96 +115,107 @@ const displayRecipes = (recipes, container) => {
     `
   })
 
-  container.innerHTML += `
-    <div class="${divclass}">
-      <div class="placeholder">
-        <h1>Ops! No more recipes.</h1>
-        <h3>Click left to go back</h3>
-      </div>
-    </div>
-  `
   recipeCard = document.querySelectorAll(`.${divclass}`)
 
-  width >= 700 ? (
-    recipeCard[0].classList.add("active"),
-    recipeCard[1].classList.add("recipe-card__hero--active"),
-    recipeCard[2].classList.add("active")
-  ) : (
-    recipeCard[1].classList.add("active")
-  )
-  arrowButtons(recipeCard, index)
+  //fills  the slideshow with innerHTML by adding active class on the amount of recipe cards that will show
+  if (width >= 1500) {
+    for (let i = 0; 5 > i; i++) {
+      i === 2 ? recipeCard[2].classList.add("recipe-card__hero--active") : recipeCard[i].classList.add("active")
+    }
+  } else if (width >= 700) {
+    for (let i = 0; 3 > i; i++)
+      i === 1 ? recipeCard[1].classList.add("recipe-card__hero--active") : recipeCard[i].classList.add("active")
+  } else {
+    recipeCard[0].classList.add("active")
+  }
 
+  arrowButtons(index, recipeCard)
 }
 
-/*Connects the arrowbuttons to the correct innerHTML elements and makes them function as 
-right/left button to view slideshow of foods. For desktop several elements will get an active 
-class to show more than one recipe at one time in the slideshow. */
-const arrowButtons = (card, index) => {
+
+const arrowButtons = (index, card) => {
   const width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-  let i = 1;
-  let j = 0;
+  let i = 0;
 
   sliderBtnL[index].addEventListener("click", () => {
-    if (width >= 700) {
-      if (i > 0) {
-        card.forEach((item) => item.classList.remove("active", "recipe-card__hero--active"))
-        i--
-        card[i].classList.add("active")
-        card[i + 1].classList.add("recipe-card__hero--active")
-        card[i + 2].classList.add("active")
-      } else {
-        i = 1
-      }
-    } else {
-      card.forEach((item) => item.classList.remove("active"))
-      j > 1 ? j-- : j = card.length - 2
-      card[j].classList.add("active")
-    }
+    slideShow("left")
   })
 
   sliderBtnR[index].addEventListener("click", () => {
-    if (width >= 700) {
-      if (i === card.length - 3) {
-        i = card.length - 4
-      } else {
-        card.forEach((item) => item.classList.remove("active", "recipe-card__hero--active"))
-        i++
-        card[i].classList.add("active")
-        card[i + 1].classList.add("recipe-card__hero--active")
-        card[i + 2].classList.add("active")
-      }
-    } else {
-      card[j].classList.remove("active")
-      j === card.length - 2 ? j = 1 : j++
-      card[j].classList.add("active")
-    }
+    slideShow("right")
+
   })
+
+  //makes the recipe cards act in a slideshow with adding and removind active classes
+  //desktop >1500px shows 5 recipes at a time, while mobile only shows one at one time.
+  const slideShow = (btn) => {
+    card.forEach((item) => item.classList.remove("active", "recipe-card__hero--active"))
+
+    if (btn === "right") {
+      i < card.length - 1 ? i++ : i = 0
+    } else {
+      i > 0 ? i-- : i = card.length - 1
+    }
+    if (width >= 1500) {
+      card[i].classList.add("recipe-card__hero--active")
+      card[i].nextElementSibling.classList.add("active")
+      card[i].nextElementSibling.nextElementSibling.classList.add("active")
+      card[i].previousElementSibling.classList.add("active")
+      card[i].previousElementSibling.previousElementSibling.classList.add("active")
+
+    } else if (width >= 700) {
+      card[i].classList.add("recipe-card__hero--active")
+      card[i].nextElementSibling.classList.add("active")
+      card[i].previousElementSibling.classList.add("active")
+    } else {
+      card[i].classList.add("active")
+    }
+  }
 }
 
-const openRecipe = (ingrd, img, label, url) => {
-  const ingredients = ingrd.split(",")
-  const myPopup = window.open("./recipe.html", "_blank");
+const openRecipe = (rValue) => {
+  const recipeApiUrl = `https://api.edamam.com/search?r=${rValue}&app_id=38a129f8&app_key=ad250481ec39e7ffc0c0904ddbc693f8`
 
-  myPopup.onload = function () {
-    let recipeImage = myPopup.document.getElementById("recipeImage")
-    let recipeIngredients = myPopup.document.getElementById("recipeIngredients")
+  fetch(recipeApiUrl)
+    .then((response) => response.json())
+    .then((recipeData) => {
 
-    recipeImage.innerHTML = `
-    <div class="recipe-image__container"> 
-      <img src="${img}"/>
-    </div>
-    <h1> ${label}</h1>
-    <a href="${url}" target="_blank"> Full recipe </a>`
+      const myPopup = window.open("./recipe.html", "_blank");
 
-    ingredients.forEach((ing) => {
-      console.log(ing)
-      recipeIngredients.innerHTML += `
-        <div class="recipe-description__ingrd-list">
-        <li>${ing}</li>
-        </div>
-      `
+      myPopup.onload = function () {
+        const recipeImage = myPopup.document.getElementById("recipeImage")
+        const recipeIngredients = myPopup.document.getElementById("recipeIngredients")
+        const recipeFacts = myPopup.document.getElementById("factTable")
+
+        recipeImage.innerHTML = `
+          <div class="recipe-image__container"> 
+            <img src="${recipeData[0].image}"/>
+          </div>
+          <h1> ${recipeData[0].label}</h1>
+          <a href="${recipeData[0].shareAs}" target="_blank"> Full recipe </a>
+        `
+        recipeData[0].ingredients.forEach((ing) => {
+          recipeIngredients.innerHTML += `
+            <div class="recipe-description__ingrd-list">
+              <li>${ing.text}</li>
+            </div>
+          `
+        })
+
+        const filteredData = recipeData[0].digest.filter((item) => item.label!=="Fat" || item.label!=="Carbs" || item.label!=="Protein" || item.label!=="Cholesterol")
+        filteredData.forEach((item) => {
+          
+          recipeFacts.innerHTML += `
+          <tr>
+            <td>${item.label}</td>
+            <td>${Math.round(item.total)}</td>
+            <td>${Math.round(item.daily)}</td>
+        </tr>`
+        
+        })
+      }
     })
-  }
+    .catch((error) => console.log(error))
 }
 
 //Makes minutes to hours, days and weeks on long totalTime recipes
@@ -263,6 +261,5 @@ searchBtn.addEventListener("click", (event) => {
   handleUserInput(userInput.value)
   clearAll()
 })
-
 
 generateStartSite()
