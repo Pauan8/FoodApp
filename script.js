@@ -173,6 +173,7 @@ const arrowButtons = (index, card) => {
   }
 }
 
+//fetches the specific recipe clicke on and displays a recipe popup with more info (ingridients etc.)
 const openRecipe = (rValue) => {
   const recipeApiUrl = `https://api.edamam.com/search?r=${rValue}&app_id=38a129f8&app_key=ad250481ec39e7ffc0c0904ddbc693f8`
 
@@ -201,17 +202,22 @@ const openRecipe = (rValue) => {
             </div>
           `
         })
-
-        const filteredData = recipeData[0].digest.filter((item) => item.label!=="Fat" || item.label!=="Carbs" || item.label!=="Protein" || item.label!=="Cholesterol")
+       
+        //filters nutritional info to what should be displayed at the desktop recipe.html site
+        const filteredData = recipeData[0].digest.filter((n) => {
+          const nArr = ["Fat", "Carbs", "Protein", "Cholesterol", "Folate (food)", "Sugar alcohols", "Water"]
+          return !n.label.includes(nArr[0]) && !n.label.includes(nArr[1]) && !n.label.includes(nArr[2]) &&
+          !n.label.includes(nArr[3]) && !n.label.includes(nArr[4]) && !n.label.includes(nArr[5])
+        })
+  
         filteredData.forEach((item) => {
-          
           recipeFacts.innerHTML += `
           <tr>
             <td>${item.label}</td>
             <td>${Math.round(item.total)}</td>
             <td>${Math.round(item.daily)}</td>
         </tr>`
-        
+
         })
       }
     })
