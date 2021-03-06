@@ -33,113 +33,104 @@
     <main class="main">
 
         <section class="search-container">
-            <div class="search-option">
-            <div class="search-option-container">
+            <div class="search-filter">
+            <div class="search-filter-container">
                 <h2>Meal type</h2>
-                <div class="search-option__field">
+                <div class="search-filter__field">
                     <div class="search-option__mealtype">
-                        <button class="search-option__btn" id="Breakfast"><img/></button>
-                        <button class="search-option__btn" id="Lunch"><img/></button>
-                        <button class="search-option__btn" id="Dinner"><img/></button>
-                        <button class="search-option__btn" id="Snack"><img/></button>
-                        <button class="search-option__btn" id="Teatime"><img/></button>
+                        <button class="search-option__btn" id="Breakfast" value="Breakfast">Breakfast</button>
+                        <button class="search-option__btn" id="Lunch" value="Lunch">Lunch</button>
+                        <button class="search-option__btn" id="Dinner" value="Dinner">Dinner</button>
+                        <button class="search-option__btn" id="Snack" value="Snack">Snack</button>
+                        <button class="search-option__btn" id="Teatime" value="Teatime">Tea</button>
                     </div>
                 </div>
             </div>
            
-            <div class="search-option-container">
-                <h2>Cusine type</h2>
-                <div class="search-option__field">
-                    <div class="search-option__cusine">
+            <div class="search-filter-container">
+                <h2>Exclude this: </h2>
+                <div class="search-filter__field">
+                    <div class="search-filter__excluded">
                         <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="American" />
+                            <input type="checkbox" class="checkbox-filter" value="salt" />
                             <span class="checkbox-mark"></span>
-                            American
+                            Salt
                         </label>
                         <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="Asian" />
+                            <input type="checkbox" class="checkbox-filter" value="butter" />
                             <span class="checkbox-mark"></span>
-                            Asian
+                            Butter
                         </label>
                         <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="British" />
+                            <input type="checkbox" class="checkbox-filter" value="eggs" />
                             <span class="checkbox-mark"></span>
-                            British
+                            Eggs
                         </label>
                         <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="Carribbean" />
+                            <input type="checkbox" class="checkbox-filter" value="milk" />
                             <span class="checkbox-mark"></span>
-                            Carribbean
+                            Milk
                         </label>
                         <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="Central Europe" />
+                            <input type="checkbox" class="checkbox-filter" value="cream" />
                             <span class="checkbox-mark"></span>
-                            Central Europe
+                            Cream
                         </label>
                         <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="Chinese" />
+                            <input type="checkbox" class="checkbox-filter" value="cheese" />
                             <span class="checkbox-mark"></span>
-                            Chinese
+                            Cheese
                         </label>
-                        <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="Eastern Europe" />
-                            <span class="checkbox-mark"></span>
-                            Eastern Europe
-                        </label>
-                        <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="French" />
-                            <span class="checkbox-mark"></span>
-                            French
-                        </label>
+                        <div class="search-filter__user">
+                            <label for="seachFilterUser">Add your own</label>
+                            <input type="text" class="search-filter__userInput" id="seachFilterUser" name="seachFilterUser">
+                        </div>
                     </div>
-                    <div class="search-option__cusine">
+                    <div class="search-filter__excluded">
                         <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="Indian" />
+                            <input type="checkbox" class="checkbox-filter" value="pork" />
                             <span class="checkbox-mark"></span>
-                            Indian
+                            Pork
                         </label>
 
                         <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="Italian" />
+                            <input type="checkbox" class="checkbox-filter" value="beef" />
                             <span class="checkbox-mark"></span>
-                            Italian
+                            Beef
                         </label>
 
                         <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="Japanese" />
+                            <input type="checkbox" class="checkbox-filter" value="fish" />
                             <span class="checkbox-mark"></span>
-                            Japanese
+                            Fish
                         </label>
                         <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="Mediterranean" />
+                            <input type="checkbox" class="checkbox-filter" value="shellfish" />
                             <span class="checkbox-mark"></span>
-                            Mediterranean
+                            Shellfish
                         </label>
                         <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="Mexican" />
+                            <input type="checkbox" class="checkbox-filter" value="potato" />
                             <span class="checkbox-mark"></span>
-                            Mexican
+                            Potato
                         </label>
                         <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="Nordic" />
+                            <input type="checkbox" class="checkbox-filter" value="rice" />
                             <span class="checkbox-mark"></span>
-                            Nordic
-                        </label>
-                        <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="South American" />
-                            <span class="checkbox-mark"></span>
-                            South American
-                        </label>
-                        <label class="checkbox-container">
-                            <input type="checkbox" class="checkbox" value="South East Asian" />
-                            <span class="checkbox-mark"></span>
-                            South East Asian
+                            Rice
                         </label>
                     </div>
+                    <button class="search-option__filter-btn" id="filterBtn">Filter</button>
                 </div>
             </div>
         </div>
             <form class="search">
+                <div class="search-quick-choice">
+                    <button class="quick-choice__btn" id="meat" value="meat"><div class="image-container"><img src="./assets/meat.svg" /></div></button>
+                    <button class="quick-choice__btn" id="chicken" value="chicken"><div class="image-container"><img src="./assets/chicken.svg" /></div></button>
+                    <button class="quick-choice__btn" id="fish"  value="fish"><div class="image-container"><img src="./assets/fish.svg" /></div></button>
+                    <button class="quick-choice__btn" id="veg" value="vegetarian"><div class="image-container" ><img src="./assets/veg.svg" /></div></button>
+                </div>
                 <h1>What do you want to eat today?</h1>
                 <label for="search-input"> Search recipe </label>
                 <div class="search-bar">

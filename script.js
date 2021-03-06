@@ -4,18 +4,37 @@ const userInput = document.getElementById("searchInput")
 const randomBtn = document.getElementById("randomBtn")
 const searchBtn = document.getElementById("searchBtn")
 const checkbox = document.querySelectorAll(".checkbox")
+const checkboxFilter = document.querySelectorAll(".checkbox-filter")
 const sliderBtnL = document.querySelectorAll(".recipe-slider__btn-left")
 const sliderBtnR = document.querySelectorAll(".recipe-slider__btn-right")
 const recipeSlider = document.getElementById("recipeSlider")
 const simpleRecipesSlider = document.getElementById("simpleRecipeSlider")
 const fastRecipesSlider = document.getElementById("fastRecipeSlider")
+const quickChoiceBtn = document.querySelectorAll(".quick-choice__btn")
+const searchOptionBtn = document.querySelectorAll(".search-option__btn")
+const filterBtn = document.getElementById("filterBtn")
+const filterUserInput = document.getElementById("seachFilterUser")
+
+let query, old, oldUrl="", newUrl
 
 
-const handleUserInput = (input) => {
-  const query = input;
-  const APIurl = `https://api.edamam.com/search?q=${query}&app_id=38a129f8&app_key=ad250481ec39e7ffc0c0904ddbc693f8`
-
-  filterRecipes(APIurl)
+const handleUserInput = (input, type) => {
+  let APIurl, insrt;
+  console.log(`"${input}"`)
+  if (type === "value") {
+    if(input === "") {
+      query = old
+      insrt = false
+    } else { 
+      query = input 
+      old = input
+      insrt = true;
+    }
+    APIurl = `https://api.edamam.com/search?q=${query}&app_id=38a129f8&app_key=ad250481ec39e7ffc0c0904ddbc693f8`
+  } else {
+    APIurl = `${APIurl}mealType=${query}`
+  }
+  filterRecipes(APIurl, insrt)
 }
 
 const fetchRecipes = (url, sender) => {
@@ -33,7 +52,7 @@ const fetchRecipes = (url, sender) => {
           displayRecipes(recipeData, recipeSlider)
       }
     })
-    .catch((error) => alert("Error"))
+    .catch((error) => alert(error))
 }
 
 const generateStartSite = () => {
@@ -44,21 +63,43 @@ const generateStartSite = () => {
 }
 
 //adds specific filter values to the url depending on if the user have selected any
-const filterRecipes = (url) => {
-  let newUrl = url
-  let checked = document.querySelectorAll(".checkbox:checked")
+const filterRecipes = (url, state) => {
+  state === false && oldUrl !== "" ? url = oldUrl : newUrl = url;
+  
+  const checked = document.querySelectorAll(".checkbox:checked")
   if (checked.length > 0) {
     checked.forEach((filter) => {
-      newUrl += `&health=${filter.value}`
+     newUrl += `&health=${filter.value}`
     })
   } else {
-    newUrl = url
+      newUrl = url;
+    }
+    let add = newUrl
+
+  const checkedFilter = document.querySelectorAll(".checkbox-filter:checked")
+  if (checkedFilter.length > 0) {
+    
+    if (filterUserInput.value !== "") {
+      add += `&excluded=${filterUserInput.value}`
+    }
+    checkedFilter.forEach((check) => {
+      if (check.value === "eggs") {
+        add += `&excluded=${check.value}&excluded=egg`
+      } else if (check.value === "shellfish") {
+        add += `&excluded=${check.value}&excluded=shrimps&excluded=crab&excluded=lobster&excluded=crayfish&excluded=crawfish&excluded=prawn`
+      } else {
+        add += `&excluded=${check.value}`
+      }
+    })
+    newUrl = add
   }
+  oldUrl = newUrl
+  console.log(newUrl)
+  fetchRecipes(newUrl, "user")
+
   const randomize = (url) => {
     return `${url}&from=${randomNumber("1","100")}`
   }
-
-  fetchRecipes(newUrl, "user")
 
   randomBtn.addEventListener("click", (e) => {
     e.preventDefault()
@@ -186,7 +227,8 @@ const openRecipe = (rValue) => {
       myPopup.onload = function () {
         const recipeImage = myPopup.document.getElementById("recipeImage")
         const recipeIngredients = myPopup.document.getElementById("recipeIngredients")
-        const recipeFacts = myPopup.document.getElementById("factTable")
+        const recipeFactsMain = myPopup.document.getElementById("factTable")
+        const recipeFactsAll = myPopup.document.getElementById("factTable2")
 
         recipeImage.innerHTML = `
           <div class="recipe-image__container"> 
@@ -202,23 +244,37 @@ const openRecipe = (rValue) => {
             </div>
           `
         })
-       
+
+        recipeFactsMain.innerHTML += `
+        <tr>
+          <td>Calories</td>
+          <td>${Math.round(recipeData[0].calories)} kcal</td>
+          <td></td>
+      </tr>`
+
         //filters nutritional info to what should be displayed at the desktop recipe.html site
-        const filteredData = recipeData[0].digest.filter((n) => {
-          const nArr = ["Fat", "Carbs", "Protein", "Cholesterol", "Folate (food)", "Sugar alcohols", "Water"]
-          return !n.label.includes(nArr[0]) && !n.label.includes(nArr[1]) && !n.label.includes(nArr[2]) &&
-          !n.label.includes(nArr[3]) && !n.label.includes(nArr[4]) && !n.label.includes(nArr[5])
-        })
-  
+        const filteredData = recipeData[0].digest.filter((n) =>
+          (n.label !== "Folat (food)" && n.label !== "Sugar alcohols" && n.label !== "Water"))
+
         filteredData.forEach((item) => {
-          recipeFacts.innerHTML += `
+          if (item.label === "Fat" || item.label === "Carbs" || item.label === "Protein" || item.label === "Cholesterol") {
+            recipeFactsMain.innerHTML += `
           <tr>
             <td>${item.label}</td>
-            <td>${Math.round(item.total)}</td>
-            <td>${Math.round(item.daily)}</td>
+            <td>${Math.round(item.total)} g</td>
+            <td>${Math.round(item.daily)} %</td>
+        </tr>`
+          } else {
+            recipeFactsAll.innerHTML += `
+          <tr>
+            <td>${item.label}</td>
+            <td>${Math.round(item.total)} g</td>
+            <td>${Math.round(item.daily)} %</td>
         </tr>`
 
+          }
         })
+
       }
     })
     .catch((error) => console.log(error))
@@ -248,9 +304,12 @@ const randomNumber = (min, max) => {
 
 const clearAll = () => {
   userInput.value = ""
+  filterUserInput.value = ""
   checkbox.forEach(item => item.checked = false);
+  checkboxFilter.forEach(item => item.checked = false);
   recipeSlider.innerHTML = ""
 }
+
 
 //eventlisteners
 searchAccordion.addEventListener("click", () => {
@@ -264,8 +323,31 @@ navBtn.addEventListener("click", () => {
 
 searchBtn.addEventListener("click", (event) => {
   event.preventDefault()
-  handleUserInput(userInput.value)
+  handleUserInput(userInput.value, "value")
   clearAll()
 })
+
+filterBtn.addEventListener("click", (event) => {
+  event.preventDefault()
+  handleUserInput(userInput.value, "value")
+  clearAll()
+})
+
+for (let i = 0; i < quickChoiceBtn.length; i++) {
+  quickChoiceBtn[i].addEventListener("click", (event) => {
+    event.preventDefault()
+    i === 3 ?
+      fetchRecipes(`https://api.edamam.com/search?q=&app_id=38a129f8&app_key=ad250481ec39e7ffc0c0904ddbc693f8&health=${quickChoiceBtn[i].value}`) :
+      handleUserInput(quickChoiceBtn[i].value, "value")
+  })
+  clearAll()
+}
+
+for (let i = 0; i < searchOptionBtn.length; i++) {
+  searchOptionBtn[i].addEventListener("click", () => {
+    handleUserInput(searchOptionBtn[i].value, "mealType")
+  })
+  clearAll()
+}
 
 generateStartSite()
