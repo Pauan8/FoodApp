@@ -261,15 +261,15 @@ const openRecipe = (rValue) => {
             recipeFactsMain.innerHTML += `
           <tr>
             <td>${item.label}</td>
-            <td>${Math.round(item.total)} g</td>
-            <td>${Math.round(item.daily)} %</td>
+            <td>${Math.round(item.total)/10} g</td>
+            <td>${Math.round(item.daily)/10} %</td>
         </tr>`
           } else {
             recipeFactsAll.innerHTML += `
           <tr>
             <td>${item.label}</td>
-            <td>${Math.round(item.total)} g</td>
-            <td>${Math.round(item.daily)} %</td>
+            <td>${Math.round(item.total)/10} g</td>
+            <td>${Math.round(item.daily)/10} %</td>
         </tr>`
 
           }
@@ -335,9 +335,8 @@ filterBtn.addEventListener("click", (event) => {
 
 for (let i = 0; i < quickChoiceBtn.length; i++) {
   quickChoiceBtn[i].addEventListener("click", (event) => {
+    clearAll()
     event.preventDefault()
-    i === 3 ?
-      fetchRecipes(`https://api.edamam.com/search?q=&app_id=38a129f8&app_key=ad250481ec39e7ffc0c0904ddbc693f8&health=${quickChoiceBtn[i].value}`) :
       handleUserInput(quickChoiceBtn[i].value, "value")
   })
   clearAll()
